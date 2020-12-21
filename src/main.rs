@@ -12,4 +12,9 @@ fn main() {
 
     println!("Day 2 - Part 1: {}", day2::part1(&day2_input));
     println!("Day 2 - Part 2: {}", day2::part2(&day2_input));
+
+    let day3_input = input_utils::read_all("inputs/day3");
+
+    println!("Day 3 - Part 1: {}", day3::part1(&day3_input));
+    println!("Day 3 - Part 2: {}", day3::part2(&day3_input));
 }
