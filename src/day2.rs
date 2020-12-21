@@ -6,7 +6,6 @@ use regex::{Captures, Regex};
 /// ex: 1-3 a: abcde
 /// which means a valid password must have 1-3 as inside it
 pub fn part1(password_lines: &[String]) -> u32 {
-
     let mut valid_passwords = Vec::new();
 
     for password_line in password_lines.iter() {
@@ -14,12 +13,15 @@ pub fn part1(password_lines: &[String]) -> u32 {
         let (min, max, c, password) = parse_password_line_parts(password_line);
 
         // now lets see how many times the character appears in the password
-        let num_appear: i32 = password.chars().map(|curr_char| {
-            if curr_char == c {
-                return 1
-            }
-            0
-        }).sum();
+        let num_appear: i32 = password
+            .chars()
+            .map(|curr_char| {
+                if curr_char == c {
+                    return 1;
+                }
+                0
+            })
+            .sum();
 
         if min <= num_appear && num_appear <= max {
             valid_passwords.push(password_line.clone());
@@ -49,7 +51,8 @@ pub fn part2(password_lines: &[String]) -> u32 {
 
     for password_line in password_lines.iter() {
         // get the password components
-        let (first_position, second_position, c, password) = parse_password_line_parts(password_line);
+        let (first_position, second_position, c, password) =
+            parse_password_line_parts(password_line);
 
         let mut num_matches = 0;
 
@@ -60,7 +63,12 @@ pub fn part2(password_lines: &[String]) -> u32 {
         }
 
         // check if the second position matches!
-        if password.chars().nth((second_position - 1) as usize).unwrap() == c {
+        if password
+            .chars()
+            .nth((second_position - 1) as usize)
+            .unwrap()
+            == c
+        {
             // yep!
             num_matches += 1;
         }

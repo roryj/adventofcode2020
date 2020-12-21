@@ -53,7 +53,6 @@
 // Starting at the top-left corner of your map and following a slope of right 3 and down 1, how many trees would you encounter?
 
 pub fn part1(input: &[String]) -> u32 {
-
     // first we need to parse the input into an array of arrays
     let tree_map: Vec<Vec<bool>> = input.iter().map(|line| parse_line(line)).collect();
 
@@ -68,17 +67,18 @@ pub fn part1(input: &[String]) -> u32 {
 }
 
 pub fn part2(input: &[String]) -> u32 {
-
     // first we need to parse the input into an array of arrays
     let tree_map: Vec<Vec<bool>> = input.iter().map(|line| parse_line(line)).collect();
 
     let slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)];
 
-    slopes.iter().map(|(x, y)| calculate_trees_hit(&tree_map, x.clone() as usize, y.clone() as usize)).product()
+    slopes
+        .iter()
+        .map(|(x, y)| calculate_trees_hit(&tree_map, x.clone() as usize, y.clone() as usize))
+        .product()
 }
 
 fn calculate_trees_hit(grid: &Vec<Vec<bool>>, x_slope: usize, y_slope: usize) -> u32 {
-
     assert!(grid.len() >= 1);
     let height = grid.len();
     let width = grid[0].len();
@@ -103,11 +103,11 @@ fn calculate_trees_hit(grid: &Vec<Vec<bool>>, x_slope: usize, y_slope: usize) ->
 }
 
 fn parse_line(line: &str) -> Vec<bool> {
-    line.chars().map(|c| {
-        match c {
+    line.chars()
+        .map(|c| match c {
             '.' => false,
             '#' => true,
-            _ => panic!("illegale input")
-        }
-    }).collect()
+            _ => panic!("illegale input"),
+        })
+        .collect()
 }
