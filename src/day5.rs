@@ -54,7 +54,7 @@ pub fn part2(input: &[String]) -> u32 {
 
     all_ids.sort();
 
-    all_ids.iter().for_each(|i| println!("id: {:?}", i));
+    // all_ids.iter().for_each(|i| println!("id: {:?}", i));
 
     let mut prev = 0;
     for ticket in all_ids.clone() {
