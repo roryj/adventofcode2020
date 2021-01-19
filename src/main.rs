@@ -40,4 +40,9 @@ fn main() {
 
     println!("Day 8 - Part 1: {}", day8::part1(&day8_input));
     println!("Day 8 - Part 2: {}", day8::part2(&day8_input));
+
+    let day9_input = input_utils::read_all_as::<usize>("inputs/day9");
+
+    println!("Day 9 - Part 1: {}", day9::part1(&day9_input, 25));
+    // println!("Day 9 - Part 2: {}", day9::part2(&day9_input));
 }
