@@ -39,5 +39,5 @@ fn main() {
     let day8_input = input_utils::read_all("inputs/day8");
 
     println!("Day 8 - Part 1: {}", day8::part1(&day8_input));
-    // println!("Day 8 - Part 2: {}", day8::part2(&day8_input));
+    println!("Day 8 - Part 2: {}", day8::part2(&day8_input));
 }
