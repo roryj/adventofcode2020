@@ -64,11 +64,11 @@ pub fn part2(input: &[String]) -> isize {
             false => {
                 // no result :(
                 // time to keep trying
-                let (last_instruction_num, last_instruction) = cpu.get_last_instruction();
-                println!(
-                    "Still stuck in loop. Completed on instruction #{:?} -> {:?}",
-                    last_instruction_num, last_instruction
-                );
+                // let (last_instruction_num, last_instruction) = cpu.get_last_instruction();
+                // println!(
+                //     "Still stuck in loop. Completed on instruction #{:?} -> {:?}",
+                //     last_instruction_num, last_instruction
+                // );
             }
         }
     }
