@@ -45,6 +45,7 @@ fn main() {
 
     println!("Day 9 - Part 1: {}", day9::part1(&day9_input, 25));
     // this one is very slow, but gets the right answer. Too lazy to optimize ¯\_(ツ)_/¯
+    println!("Day 9 - Part 2 (Commented out because it is very slow). Uncomment to get answer!");
     // println!("Day 9 - Part 2: {}", day9::part2(&day9_input, 10884537));
 
     let mut day10_input = input_utils::read_all_as::<usize>("inputs/day10");
