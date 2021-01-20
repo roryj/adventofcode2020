@@ -26,6 +26,43 @@ pub fn part1(input: &[usize], preamble_size: usize) -> usize {
         .to_owned()
 }
 
+pub fn part2(input: &[usize], expected_sum: usize) -> usize {
+    let mut decryptor = XMASDecryptor::new(input.len());
+
+    // get where the sum is equal of a contiguous set of numbers is equal to the expected_sum
+    input
+        .iter()
+        .find(|v| {
+            let value = *v.clone();
+
+            // println!("adding value: {:?}", value);
+
+            decryptor.add_new_value(value);
+
+            loop {
+                // println!("running values: {:?}", decryptor.values);
+                // println!("current running sum: {:?}", decryptor.running_sum());
+                if decryptor.running_sum() == expected_sum {
+                    return true;
+                }
+
+                if decryptor.running_sum() < expected_sum {
+                    break;
+                }
+
+                // println!("sum is too high! removing from decryptor");
+                decryptor.remove_from_front();
+                // println!("post-removal: {:?}", decryptor.values);
+            }
+            false
+        })
+        .unwrap();
+
+    // now that decryptor has the numbers, we need to add the smallest and largest!
+    decryptor.min_value() + decryptor.max_value()
+}
+
+#[derive(Debug)]
 struct XMASDecryptor {
     running_sum_length: usize,
     all_sums: HashSet<usize>,
@@ -49,10 +86,26 @@ impl XMASDecryptor {
         self.values.push(value);
 
         if self.values.len() > self.running_sum_length {
-            self.values.remove(0);
+            self.remove_from_front();
         }
 
         self.recalculate_sums();
+    }
+
+    fn min_value(&self) -> usize {
+        self.values.iter().min().unwrap().to_owned()
+    }
+
+    fn max_value(&self) -> usize {
+        self.values.iter().max().unwrap().to_owned()
+    }
+
+    fn running_sum(&self) -> usize {
+        self.values.iter().sum()
+    }
+
+    fn remove_from_front(&mut self) {
+        self.values.remove(0);
     }
 
     fn recalculate_sums(&mut self) {
@@ -72,7 +125,7 @@ impl XMASDecryptor {
 
 #[cfg(test)]
 mod tests {
-    use super::part1;
+    use super::{part1, part2};
 
     #[test]
     fn part1_test() {
@@ -105,5 +158,38 @@ mod tests {
         let result = part1(&lines, 5);
 
         assert_eq!(result, 127);
+    }
+
+    #[test]
+    fn part2_test() {
+        let input = "35
+20
+15
+25
+47
+40
+62
+55
+65
+95
+102
+117
+150
+182
+127
+219
+299
+277
+309
+576";
+
+        let lines: Vec<usize> = input
+            .lines()
+            .map(|line| line.parse::<usize>().unwrap())
+            .collect();
+
+        let result = part2(&lines, 127);
+
+        assert_eq!(result, 62);
     }
 }

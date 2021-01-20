@@ -44,5 +44,6 @@ fn main() {
     let day9_input = input_utils::read_all_as::<usize>("inputs/day9");
 
     println!("Day 9 - Part 1: {}", day9::part1(&day9_input, 25));
-    // println!("Day 9 - Part 2: {}", day9::part2(&day9_input));
+    // this one is very slow, but gets the right answer. Too lazy to optimize ¯\_(ツ)_/¯
+    // println!("Day 9 - Part 2: {}", day9::part2(&day9_input, 10884537));
 }
