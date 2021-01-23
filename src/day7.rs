@@ -1,4 +1,4 @@
-use std::{collections::HashMap, env::consts::FAMILY};
+use std::collections::HashMap;
 
 pub fn part1(input: &[String]) -> usize {
     let rules = input.iter().map(|line| parse_rule(line)).fold(

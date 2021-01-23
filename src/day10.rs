@@ -1,4 +1,4 @@
-use std::{cmp::max, collections::HashMap};
+use std::collections::HashMap;
 
 pub fn part1(input: &[usize]) -> usize {
     let mut working_set = input.to_vec().clone();
