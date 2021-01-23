@@ -48,8 +48,8 @@ fn main() {
     println!("Day 9 - Part 2 (Commented out because it is very slow). Uncomment to get answer!");
     // println!("Day 9 - Part 2: {}", day9::part2(&day9_input, 10884537));
 
-    let mut day10_input = input_utils::read_all_as::<usize>("inputs/day10");
+    let day10_input = input_utils::read_all_as::<usize>("inputs/day10");
 
-    println!("Day 10 - Part 1: {}", day10::part1(&mut day10_input));
-    // println!("Day 10 - Part 2: {}", day10::part2(&day10_input));
+    println!("Day 10 - Part 1: {}", day10::part1(&day10_input));
+    println!("Day 10 - Part 2: {}", day10::part2(&day10_input));
 }
