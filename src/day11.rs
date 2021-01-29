@@ -17,6 +17,18 @@ pub fn part1(input: &[String]) -> usize {
     seats.get_num_occupied_seats()
 }
 
+pub fn part2(input: &[String]) -> usize {
+    let mut seats = GameOfSeatingLife::new(input);
+
+    loop {
+        if seats.tick2() == 0 {
+            break;
+        }
+    }
+
+    seats.get_num_occupied_seats()
+}
+
 struct GameOfSeatingLife {
     position: Vec<Vec<FerryPosition>>,
 }
@@ -130,6 +142,113 @@ impl GameOfSeatingLife {
 
         self.position = new_ferry_map;
         num_state_changes
+    }
+
+    pub fn tick2(&mut self) -> usize {
+        let mut new_ferry_map = self.position.clone();
+        let mut num_state_changes = 0;
+
+        self.position
+            .iter()
+            .enumerate()
+            .for_each(|(row_index, line)| {
+                line.iter().enumerate().for_each(|(column_index, p)| {
+                    // the main logic
+                    match p {
+                        FerryPosition::EmptySeat => {
+                            // seat is empty
+                            let adjacent_occupied_seats: Vec<FerryPosition> = self
+                                .find_closest_seat_in_each_direction_states(
+                                    row_index as isize,
+                                    column_index as isize,
+                                )
+                                .iter()
+                                .filter_map(|p| {
+                                    if *p != FerryPosition::OccupiedSeat {
+                                        return None;
+                                    }
+
+                                    Some(p.to_owned())
+                                })
+                                .collect();
+
+                            if adjacent_occupied_seats.len() > 0 {
+                                return;
+                            }
+
+                            num_state_changes += 1;
+                            new_ferry_map[row_index][column_index] = FerryPosition::OccupiedSeat
+                        }
+                        FerryPosition::OccupiedSeat => {
+                            let adjacent_occupied_seats: Vec<FerryPosition> = self
+                                .find_closest_seat_in_each_direction_states(
+                                    row_index as isize,
+                                    column_index as isize,
+                                )
+                                .iter()
+                                .filter_map(|p| {
+                                    if *p != FerryPosition::OccupiedSeat {
+                                        return None;
+                                    }
+
+                                    Some(p.to_owned())
+                                })
+                                .collect();
+                            if adjacent_occupied_seats.len() < 5 {
+                                return;
+                            }
+
+                            // five are occupied! Seat is now empty
+                            num_state_changes += 1;
+                            new_ferry_map[row_index][column_index] = FerryPosition::EmptySeat
+                        }
+                        FerryPosition::Floor => {}
+                    };
+                })
+            });
+
+        self.position = new_ferry_map;
+        num_state_changes
+    }
+
+    fn find_closest_seat_in_each_direction_states(
+        &self,
+        row_index: isize,
+        column_index: isize,
+    ) -> Vec<FerryPosition> {
+        [
+            (-1, -1),
+            (-1, 0),
+            (-1, 1),
+            (0, -1),
+            (0, 1),
+            (1, -1),
+            (1, 0),
+            (1, 1),
+        ]
+        .iter()
+        .filter_map(|(row_delta, column_delta)| {
+            let mut check_row = row_index;
+            let mut check_column = column_index;
+
+            loop {
+                check_row += row_delta;
+                check_column += column_delta;
+
+                // check to see if it is in bounds!
+                if !self.is_in_bounds(check_row, check_column) {
+                    return None;
+                }
+
+                match self.get_state_at_position(check_row as usize, check_column as usize) {
+                    FerryPosition::Floor => {
+                        // we found a floor! continue
+                    }
+                    v => return Some(v),
+                }
+            }
+        })
+        .collect()
     }
 
     fn get_adjacent_states(&self, row_index: isize, column_index: isize) -> Vec<FerryPosition> {
@@ -250,5 +369,36 @@ L.LLLLL.LL";
         }
 
         assert_eq!(37, map.get_num_occupied_seats());
+    }
+
+    #[test]
+    fn part2_test() {
+        let input = "L.LL.LL.LL
+LLLLLLL.LL
+L.L.L..L..
+LLLL.LL.LL
+L.LL.LL.LL
+L.LLLLL.LL
+..L.L.....
+LLLLLLLLLL
+L.LLLLLL.L
+L.LLLLL.LL";
+
+        let lines: Vec<String> = input.lines().map(|line| line.to_string()).collect();
+
+        let mut map = GameOfSeatingLife::new(&lines);
+
+        let mut count = 1;
+        loop {
+            println!("tick #{}", count);
+            if map.tick2() == 0 {
+                break;
+            }
+
+            println!("map:\n{:?}", map);
+            count += 1;
+        }
+
+        assert_eq!(26, map.get_num_occupied_seats());
     }
 }
