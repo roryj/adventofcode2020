@@ -47,7 +47,6 @@ enum Direction {
 
 #[derive(Debug)]
 enum Movement {
-    Forward,
     Left,
     Right,
 }
@@ -182,21 +181,19 @@ impl Ship {
 
     fn move_to_wavepoint(&mut self, distance: usize) {
         // find distance x and y to waypoint from ship
-        println!("attempting moving to wavepoint!");
-        println!("wavepoint: ({}, {})", self.waypoint_x, self.waypoint_y);
-        println!("ship location: ({}, {})", self.x, self.y);
+        // println!("attempting moving to wavepoint!");
+        // println!("wavepoint: ({}, {})", self.waypoint_x, self.waypoint_y);
+        // println!("ship location: ({}, {})", self.x, self.y);
 
         let x_change = self.waypoint_x * (distance as isize);
         let y_change = self.waypoint_y * (distance as isize);
 
         self.x += x_change;
         self.y += y_change;
-        println!("new ship location: ({}, {})", self.x, self.y);
+        // println!("new ship location: ({}, {})", self.x, self.y);
     }
 
     fn rotate_wavepoint(&mut self, movement: Movement, angle: usize) {
-        let direction_ordering = [(1, 1), (1, -1), (-1, -1), (-1, 1)];
-
         let angle = match movement {
             Movement::Right => angle,
             Movement::Left => 360 - angle,
@@ -210,7 +207,7 @@ impl Ship {
             x => panic!("invalid angle {}", x),
         };
 
-        println!("x change {} y change {}", new_waypoint_x, new_waypoint_y);
+        // println!("x change {} y change {}", new_waypoint_x, new_waypoint_y);
 
         self.waypoint_x = new_waypoint_x;
         self.waypoint_y = new_waypoint_y;
