@@ -25,13 +25,6 @@ pub fn part2(input: &[String]) -> usize {
 
     actions.iter().for_each(|action| {
         ship.move_waypoint_and_ship(action);
-
-        match action {
-            Action::Forward(d) => println!("moving forward {}", d),
-            Action::Left(d) => println!("rotating wavepoint left {}", d),
-            Action::Right(d) => println!("rotating wavepoint right {}", d),
-            _ => {}
-        }
     });
 
     ship.manhattan_distance()
@@ -197,7 +190,6 @@ impl Ship {
         let angle = match movement {
             Movement::Right => angle,
             Movement::Left => 360 - angle,
-            other => panic!("invalid movement {:?}", other),
         };
 
         let (new_waypoint_x, new_waypoint_y) = match angle {
@@ -233,9 +225,6 @@ impl Ship {
         let num_direction_changes = ((angle / 90) % direction_ordering.len()) as isize;
 
         let new_direction_index: usize = match movement {
-            Movement::Forward => {
-                panic!("should not happen")
-            }
             Movement::Left => {
                 let mut i: isize = (direction_index as isize) - num_direction_changes;
                 if i < 0 {
